@@ -1,13 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using NLog;
+using System;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Test_Task_Admixer
 {
     public class MyArray
     {
+
+        private static readonly ILogger Logger = LogManager.GetCurrentClassLogger();
+
         public string[,] CreateArray()
         {
             string[,] array = new string[9, 9];
@@ -49,6 +50,7 @@ namespace Test_Task_Admixer
                 array = FindMatches(array);
 
                 ShowArray(array, "Find Matches");
+                Logger.Info(GetArrayString(array, "Find Matches"));
 
                 check = IsContain(array, " ");
 
@@ -56,15 +58,18 @@ namespace Test_Task_Admixer
                 {
                     array = MoveElemetArray(array);
                     ShowArray(array, "Move Element");
+                    Logger.Info(GetArrayString(array, "Move Element"));
 
                     array = FillEmptyElement(array);
                     ShowArray(array, "Fill Empty Element");
+                    Logger.Info(GetArrayString(array, "Fill Empty Element"));
                 }
 
             } while (check);
 
             Console.ForegroundColor = ConsoleColor.DarkGreen;
             ShowArray(array, "Result");
+            Logger.Info(GetArrayString(array, "Result"));
             Console.ResetColor();
         }
 
@@ -123,7 +128,6 @@ namespace Test_Task_Admixer
 
                 }
             }
-
             return array;
         }
 
@@ -223,6 +227,28 @@ namespace Test_Task_Admixer
                 }
             }
             return false;
+        }
+
+        public string GetArrayString(string[,] array, string title)
+        {
+            StringBuilder arrayString = new StringBuilder();
+
+            arrayString.AppendLine();
+            arrayString.AppendLine();
+            arrayString.Append(new string('-', 20) + $" {title} " + new string('-', 20));
+
+            for (int i = 0; i < array.GetLength(0); i++)
+            {
+                arrayString.AppendLine();
+                arrayString.AppendLine();
+                for (int j = 0; j < array.GetLength(1); j++)
+                {
+                    arrayString.Append(array[i, j] + "   ");
+                }
+            }
+            arrayString.AppendLine();
+
+            return arrayString.ToString();
         }
     }
 }

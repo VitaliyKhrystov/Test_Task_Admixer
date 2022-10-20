@@ -1,5 +1,7 @@
-﻿using System;
+﻿using NLog;
+using System;
 using System.Linq;
+
 
 namespace Test_Task_Admixer
 {
@@ -13,15 +15,22 @@ namespace Test_Task_Admixer
         //заповнюємо випадковими числами від 0 до 3 включно.Повторюємо 
         //процедуру доти не буде збігів. Результат виконання вивести/залогувати
 
+
         static void Main(string[] args)
         {
+            var Logger = LogManager.GetCurrentClassLogger();
+
             MyArray myArray = new MyArray();
 
             string[,] array = myArray.CreateArray();
 
             myArray.ShowArray(array, "New Array");
 
+            Logger.Info(myArray.GetArrayString(array, "New Array"));
+
             myArray.GetArrayWithout3orMoreDublicateElements(array);
+
+
 
             Console.ReadLine();
         }
